@@ -1,2 +1,83 @@
-# sdo-client
-Secure Device Onboard (SDO) Client
+# Secure Device Onboard (SDO)
+
+Secure Device Onboard is an automated “Zero-Touch” onboarding service.
+“Onboard” means the process by which a device establishes its first trusted connection with a device management service of the customer.
+
+To more securely and automatically onboard and provision a device on edge hardware, it only needs to be drop shipped to the point of installation, connected to the network and powered up. This zero-touch model simplifies the installer’s role, reduces costs and eliminates poor security practices, such as shipping default passwords.
+
+Device provisioning is the process of installing secrets and network addresses into a device so that the device and its network-based manager are able to connect using a trusted connection.  For example, they may share a secret or have trusted PKI credentials.
+
+When provisioning process (described in next chapter) is finished the device is equipped with the Internet address and public key of its manager in order to communicate with him in the future.
+
+For more general information:
+[https://www.lfedge.org/projects/securedeviceonboard/](https://www.lfedge.org/projects/securedeviceonboard/)
+[https://secure-device-onboard.github.io/docs/latest/](https://secure-device-onboard.github.io/docs/latest/)
+
+
+# Onboarding Process
+
+## Processes
+
+While the provisioning process there are mainly three SDO services involved:
+
+- Manufacturing Toolkit (Service)
+  The Manufacturing Service initializes the device with credentials and the
+  information how the device can connect to the Rendezvous Service when the
+  device has been shiped to the customer and will be switched on.
+  
+- Rendezvous Service
+  The service which will be contacted by the device if it will be switched on.
+  The service will return the URL address of the IOT Platform Service.
+
+- IOT Platform Service
+  This service is the network-based manager mentioned in the chapter above.
+  The IoT platform provides new security credentials to the device.
+  The credentials programmed during device initialization are now replaced
+  with the new credentials. From now this service will be the contact for the
+  device to the IOT Platform of the customer.
+
+For more information:
+[https://secure-device-onboard.github.io/docs/latest/#secure-device-onboard-entities](https://secure-device-onboard.github.io/docs/latest/#secure-device-onboard-entities)
+
+## Device Installation and Onboarding Workflow
+
+1. The manufacturer installs the device together with an application which
+   can communicate with the three services described above. This application
+   uses the [Client SDK](https://secure-device-onboard.github.io/docs/latest/client-sdk/client-sdk-reference-guide/)
+   for the communication.
+   Additional information about serial Nr., Product ID, URL of the
+   Manufacturing Toolkit (Service) has also to be set on the device.
+2. When the device will be switched on the device sends serial Nr.,
+   Product Id., ... to the Manufacturing Service.
+   This returns the credentials and the URL of Rendezvous Service to the device.
+3. The device will be shipped to the customer.
+4. The manufacture generates an ownership voucher which includes the device
+   information. This voucher will be send to the IoT Platform service provider
+   via either a file or through B2B integration. The provider registers the
+   ownership voucher with the Rendezvous Service. So the Rendezvous Service
+   is aware now about the shipped device.
+5. When the divice has arrived the customer his only task will be to connect
+   the device to internet.
+6. The device contacts the Rendezvous Service and this service will provide the
+   connection information to the IOT Platform Service, if the device is known.
+   If not the device will have to try it again after a while. It could be that
+   the Rendezvous Service has not already gotten the information.
+7. After receiving the IoT Platform URI, the device contacts the IoT platform.
+   The IoT platform service provides new security credentials. The credentials
+   programmed during device initialization are now replaced with the new
+   credentials.
+8. After the connection beetween the device and the IoT Platform has been
+   established, the device can communicate with the IoT Platform service.
+   Special "Modules" will be used for that. More about it in the example.
+
+The workflow is a little bit simplyfied to get a faster overview.
+for more information:
+[https://secure-device-onboard.github.io/docs/latest/#the-secure-device-onboard-process](https://secure-device-onboard.github.io/docs/latest/#the-secure-device-onboard-process)
+
+   
+
+# Example
+
+We are concentrating us more or less on the setup of the divice with
+openSUSE-MicroOS together with an application which uses the
+[client-sdk](https://github.com/secure-device-onboard/client-sdk).
