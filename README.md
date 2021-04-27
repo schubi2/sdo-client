@@ -23,7 +23,7 @@ While the provisioning process there are mainly three SDO services involved:
 - Manufacturing Toolkit (Service)
   The Manufacturing Service initializes the device with credentials and the
   information how the device can connect to the Rendezvous Service when the
-  device has been shiped to the customer and will be switched on.
+  device has been shipped to the customer and will be switched on.
   
 - Rendezvous Service
   The service which will be contacted by the device if it will be switched on.
@@ -56,7 +56,7 @@ For more information:
    via either a file or through B2B integration. The provider registers the
    ownership voucher with the Rendezvous Service. So the Rendezvous Service
    is aware now about the shipped device.
-5. When the divice has arrived the customer his only task will be to connect
+5. When the device has arrived the customer his only task will be to connect
    the device to internet.
 6. The device contacts the Rendezvous Service and this service will provide the
    connection information to the IOT Platform Service, if the device is known.
@@ -66,11 +66,11 @@ For more information:
    The IoT platform service provides new security credentials. The credentials
    programmed during device initialization are now replaced with the new
    credentials.
-8. After the connection beetween the device and the IoT Platform has been
+8. After the connection between the device and the IoT Platform has been
    established, the device can communicate with the IoT Platform service.
    Special "Modules" will be used for that. More about it in the example.
 
-The workflow is a little bit simplyfied to get a faster overview.
+The workflow is a little bit simplified to get a faster overview.
 for more information:
 [https://secure-device-onboard.github.io/docs/latest/#the-secure-device-onboard-process](https://secure-device-onboard.github.io/docs/latest/#the-secure-device-onboard-process)
 
@@ -78,6 +78,6 @@ for more information:
 
 # Example
 
-We are concentrating us more or less on the setup of the divice with
+We are concentrating us more or less on the setup of the device with
 openSUSE-MicroOS together with an application which uses the
 [client-sdk](https://github.com/secure-device-onboard/client-sdk).
