@@ -54,8 +54,9 @@ For more information:
 4. The manufacture generates an ownership voucher which includes the device
    information. This voucher will be send to the IoT Platform service provider
    via either a file or through B2B integration. The provider registers the
-   ownership voucher with the Rendezvous Service. So the Rendezvous Service
-   is aware now about the shipped device.
+   ownership voucher with the Rendezvous Service by importing the voucher into the
+   IOT Platform Service. This service will transfer the voucher to the Rendezvous Service.
+   So the Rendezvous Service is aware now about the shipped device.
 5. When the device has arrived the customer his only task will be to connect
    the device to internet.
 6. The device contacts the Rendezvous Service and this service will provide the
@@ -80,4 +81,52 @@ for more information:
 
 We are concentrating us more or less on the setup of the device with
 openSUSE-MicroOS together with an application which uses the
-[client-sdk](https://github.com/secure-device-onboard/client-sdk).
+[client-sdk](https://github.com/secure-device-onboard/client-sdk) in order to connect
+to the the different SDO services.
+
+## Setup the environment and start the three neede services
+
+First of all we have to setup all needed services on a local machine. The services are
+written in Java and run on Apache Tomcat.
+
+SDO provides a testing environment
+[all-in-one-demo](https://github.com/secure-device-onboard/all-in-one-demo) with which
+we can run all three needed services.
+The best way is to build the environment by using
+[Docker](https://github.com/secure-device-onboard/all-in-one-demo/blob/master/build/README.md).
+After successful build, the demo package is available at demo/aio.tar.gz.
+The build can now be run as a Docker Service described
+[here](https://github.com/secure-device-onboard/all-in-one-demo/blob/master/container/overlay/README.md#run-as-docker-service)
+
+The services can be accessed via the URL "localhost" and the port "8080". Se we have to change the URL
+to a real IP address via a
+[REST interface](https://github.com/secure-device-onboard/all-in-one-demo/blob/master/container/overlay/README.md#configuring-all-in-one-demo) of the All-In-One demo by using
+[curl or postman](https://stackoverflow.com/questions/13782198/how-to-do-a-put-request-with-curl):
+- Generate a file called redirect.properties
+- Send it via a PUT request to the All-In-One Demo
+The content of the file and the PUT request is explained
+[here](https://github.com/secure-device-onboard/all-in-one-demo/blob/master/container/overlay/README.md#configuring-all-in-one-demo-for-remote-sdo-client)
+
+Now the three services should be accessable and we can setup a divice in order to see how the
+enboarding process works....
+
+## Installing a device
+
+The device should run with openSUSE-MicroOS by using an application which will communicate with
+the three SDO services. This application is running as an own service (sdoclient.service) and should
+be started automatically while starting the device. The service is packaged in a 
+[RPM](https://build.opensuse.org/package/show/home:schubi2/sdo-client) and uses the
+[Secure Device Onboard Client SDK](https://secure-device-onboard.github.io/docs/latest/client-sdk/client-sdk-reference-guide/) in order to communicate with the three SDO services running under the
+All-In-One demo.
+
+One way to install and to configure the device is to use AutoYaST. The regarding AutoYaST configuration
+file can be found [here](https://github.com/schubi2/sdo-client/blob/main/autoinst.xml).
+AutoYaST installs openSUSE-MicroOS and the sdoclient service and sets the URL for the comminication to
+the three SDO services running under the All-In-One demo. The URL has to be adapted to the right
+IP address.
+Besides that the installation workflow is asking for the serial and model number of the device:
+
+![Tux, the Linux mascot](/assets/images/register.png)
+
+This information will be sent while the first connect to the Manufacturing Toolkit (Service).
+
