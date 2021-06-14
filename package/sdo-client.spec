@@ -27,6 +27,7 @@ Source0:        sdo-client-%{version}.tar.xz
 Source1:        safestringlib-1.0.0+git20171208.5da1bad.tar.xz
 Source2:        sdo-client-service
 Source3:        sdoclient.service
+Source4:        README
 Patch0:         build.patch
 Requires:       openssl
 BuildRequires:  cmake
@@ -73,6 +74,7 @@ echo -n "8080" > %{_builddir}/%{name}-%{version}/data/manufacturer_port.bin
 mkdir -p %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_libdir}
 mkdir -p %{buildroot}/%{_sbindir}
+mkdir -p %{buildroot}/%{_docdir}/%{name}
 mkdir -p %{buildroot}/%{_includedir}
 mkdir -p %{buildroot}/%{_datadir}/%{name}/data
 mkdir -p %{buildroot}/%{_sharedstatedir}/%{name}/data
@@ -80,6 +82,7 @@ mkdir -p %{buildroot}/%{_sharedstatedir}/%{name}/data
 %{__install} -m 0755 build/linux-client %{buildroot}/%{_bindir}/%{name}
 %{__install} -m 0755 %{SOURCE2} %{buildroot}/%{_bindir}/sdo-client-service
 %{__install} -D -m 644 %{SOURCE3} %{buildroot}/%{_unitdir}/sdoclient.service
+%{__install} -m 0644 %{SOURCE4} %{buildroot}/%{_docdir}/%{name}/README
 ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rcsdoclient
 
 %{__install} build/*.a %{buildroot}/%{_libdir}
@@ -114,6 +117,7 @@ ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rcsdoclient
 
 %files
 %license LICENSE
+%doc README
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/data
 %dir %{_sharedstatedir}/%{name}
