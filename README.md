@@ -49,6 +49,8 @@ For more information:
 
 ## Device Installation and Onboarding Workflow
 
+![Onboarding Workflow](/assets/images/sdo.png)
+
 1. The manufacturer installs the device together with an application which
    can communicate with the three services described above. This application
    uses the [Client SDK](https://secure-device-onboard.github.io/docs/latest/client-sdk/client-sdk-reference-guide/)
